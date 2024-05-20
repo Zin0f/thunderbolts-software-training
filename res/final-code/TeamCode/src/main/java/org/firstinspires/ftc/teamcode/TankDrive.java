@@ -27,8 +27,8 @@ public class TankDrive extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()){
-            speed_left=gamepad1.left_stick_y;
-            speed_right=-gamepad1.right_stick_y;
+            speed_left=-gamepad1.left_stick_y;
+            speed_right=gamepad1.right_stick_y;
 
             left_motor.setPower(speed_left);
             right_motor.setPower(speed_right);

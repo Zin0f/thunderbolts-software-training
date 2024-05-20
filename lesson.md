@@ -1,5 +1,5 @@
 # שיעור #1 
-בשיעור זה נפעיל בעל שני מנועים שיסע בצורת טנק
+בשיעור זה נפעיל רוטב בעל שני מנועים שתנהגו בו כמו טנק  
 לפני שנתחיל לכתוב קוד אנחנו צריכים להבין קצת לגבי השפה java.  
 ## משתנים  
 בשפה יש לנו משתנים שיכולים ליכולים להגדיר. לכל  משתנה יש שם וסוג מידע.  
@@ -98,6 +98,7 @@ public void run(){
 
 ```
   left_motor.setDirection(FORWARD);
+  left_motor.setPower(1.0);
 ```  
 
 <details>
@@ -144,10 +145,63 @@ public void run(){
         waitForStart();
       
         while (opModeIsActive()) {
-            left_motor.setPower(0.5);
-            right_motor.setPower(0.5);
+            speed_left=0.5;
+            speed_right=0.5;
+            left_motor.setPower(speed_left);
+            right_motor.setPower(speed_right);
         }
     }
 ```
 </details>  
+תבדקו שהקוד עובד והרובוט נוסע קדימה כשאתם מפעילים אותו. מעבירי השיעור יעזרו לכם להוריד את הקוד לרובוט ולהפעיל אותו
+
+### שימוש בגויסטיק  
+כדי שבאמת תוכלו לנהוג ברובוט ולא רק שיסע בקו ישר לבד צריך להשתמש בשלט. למזלנו לסיפריה יש כלי מאוד נוח לשימוש בשלט. תכתבו `gamepad1.` ותראו שאתם יכולים לגשת לכל כפתור וכל גויסטיק בשלט.  
+![תפריט עם כל הכפתורים וגויסטיקים בשלט](res/gamepad1Suggestions.png)
+כפי אתם רואים בתמונה, כאשר אנחנו ניגשים לגויסטיק אנחנו יכולים לגשת לכל ציר שלו בנפרד וסוג של הציר הזה הוא () כלומר מספר עשרוני. כשמתסכלים על הסיפריה גם ניתן לראות שהמספר העשרוני יכול להיות בין אחד (קדימה/ימינה) ומינוס אחד (אחורה/שמאלה), בדיוק כמו מהירות של מנוע.  
+
+```
+  speed_right=gamepad1.right_stick_y;
+```  
+בדוגמה הערך של הציר y (קדימה/אחורה) של הגויסטיק הימני מוצב במשתנה `speed`.  
+<details>
+<summary dir="rtl">תשנו את הקוד כך שמהירות של המנועים תקבע על ידי השלט במקום להיות קבוע ב50 אחוז</summary>  
+  
+```
+    public void runOpMode() {
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+      
+        while (opModeIsActive()) {
+            speed_left=gamepad1.left_stick_y;
+            speed_right=gamepad1.right_stick_y;
+            left_motor.setPower(speed_left);
+            right_motor.setPower(speed_right);
+        }
+    }
+```
+</details>  
+<details>
+<summary dir="rtl">תורידו את הקוד לרובוט, תפעילו אותו ותתכילו לנהוג</summary>  
+אם שמתם לב שהגויסטיק השמאלי מתנהג הפוך זה בגלל שבשלטים מקובל להפוך את הערך של ציר y של הגויסטיק השמאלי.  
+אפשר לתקן את ההיפוך על ידי הסימן מינוס `-` שיהפוך את המספר שוב.  
+```
+speed_left=-gamepad1.left_stick_y;
+```
+</details>  
+
+
 
