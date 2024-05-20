@@ -36,8 +36,10 @@ public void run(){
 ## כתיבת קוד  
 התוכנה Android Studio צריכה להיות עכשיו פתוחה מולכם ואתם אמורים לראות מסך שדומה לזה:  
 ![תחילת קוד](res/initialOpMode.png)
+כשאתם כותבים קוד תזכרו לשים `;` בסוף כל שורה.  
 <details>
-<summary>תתחילו בהגדרת שני מנועים ושני מספרים בתוך `runOpMode`</summary>
+<summary dir="rtl"> תתחילו בהגדרת שני מנועים ושני מספרים בתוך הפונקציה `runOpMode`</summary>  
+  
 ```
     public void runOpMode() {
         DcMotor left_motor;
@@ -47,4 +49,86 @@ public void run(){
 
         waitForStart();
 ```
-</details>
+</details>  
+<details>
+<summary dir="rtl"> תציבו ערכים בשני המנועים </summary>  
+  
+```
+    public void runOpMode() {
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        waitForStart();
+```
+</details>  
+
+### מנועים  
+
+לייצוג שלנו למנועים (המשתנים מסוג DcMotor) יש כמה פעולות שנותנות לנו לשנות את ההגדרות של המנועים הפיזי. אנחנו יכולים להשתמש בפעולות האלו בעזרת כתיבת השם של המנוע שאנחנו רוצים לשנות בו את ההגדרות ואחרי השם `.`. תנסו לכתוב `.left_motor` במחשב שלכם ותראו תפריט של פעולות שאפשר לבצע על המנוע. אפשר לבחור בתפריט הזה בעזרתם החצים ⬆️⬇️ ו-enter.    
+
+![תפריט פונקציות](res/functionSuggestionMenu.png)  
+
+אנחנו נשתמש בפעולות:  
+
+* &#x200f;`()setPower.` - להגדרת מהירות הסיבוב של המנוע כאחוז. מספר בין אחד (1) למינוס אחד (1-)  
+* &#x200f;`()setDirection.` - להגדרת הכיוון סיבוב של המנוע כאשר המהירות חיובית. `FORWARD` או `REVERSE`  
+* &#x200f;`()setMode.` - הגדרת סוג הפעולה של המנוע. יש רק סוג פעולה אחד שרלוונטי עכשיו `RUN_WITHOUT_ENCODER`  
+בתוך הסוגריים של כל פעולה אתם צריכים להיות את הערך שאתם רוצים שהפעולה תגדיר בהגדרות של המנוע. לדוגמה:
+
+```
+  left_motor.setDirection(FORWARD);
+```  
+
+<details>
+<summary dir="rtl"> תגדיר עכשיו את הכיוון של כל אחד מהמנועים ואת הסוג פעולה שלו </summary>  
+  
+```
+    public void runOpMode() {
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+        waitForStart();
+```
+</details>  
+השורה שבה כתוב `waitForStart();` מפרידה בין קוד שקורה לפני הפעלה של הרובוט ובין קוד שקורת אחרי הפעלת הרובוט. קוד לפני השורה הזאת בעיקר ישמש להגדרת משתנים והגדרות שלא ישתנו במהלך הפעולה של הרובוט. קוד אחרי השורה הזאת בעיקר ישנה הדגרות במנוע כמו מנועים (אם תנסו לשנות את מהירות המנועים לפני הפעלת הרובוט, הם לא יסכימו לקבל את השינוי).  
+<details>
+<summary dir="rtl"> תוסיפו קוד שיגדיר למנועים ל </summary>  
+  
+```
+    public void runOpMode() {
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+
+        left_motor.setPower(0.5);
+        right_motor.setPower(0.5);
+```
+</details>  
+
