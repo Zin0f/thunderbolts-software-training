@@ -6,7 +6,6 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "tank drive")
 public class TankDrive extends LinearOpMode {
@@ -26,7 +25,7 @@ public class TankDrive extends LinearOpMode {
         left_motor.setDirection(FORWARD);
         right_motor.setDirection(REVERSE);
 
-        waitForStart();//אחרי אתחול נחכה שנלחץ על כפתור ההפעלה
+        waitForStart();
         while (opModeIsActive()){
             speed_left=gamepad1.left_stick_y;
             speed_right=-gamepad1.right_stick_y;
