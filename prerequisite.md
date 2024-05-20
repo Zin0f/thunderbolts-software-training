@@ -6,4 +6,5 @@
 [למי שלא יודע להגדיר רובוט פסט](https://www.youtube.com/watch?v=VHyKE3B170k)  
 [בחירת opmode בdrive station](https://youtu.be/uItHYCxT9eY?t=59)  
 [הקוד שצריך להיות פתוח במחשבים](res/TankDrive.java)  
-[הdashboard של הftc](https://acmerobotics.github.io/ftc-dashboard/)
+[הdashboard של הftc](https://acmerobotics.github.io/ftc-dashboard/)  
+[אם שואלים למה מספר עשרוני נקרא float](https://www.youtube.com/watch?v=PZRI1IfStY0)
