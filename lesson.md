@@ -36,4 +36,15 @@ public void run(){
 ## כתיבת קוד  
 התוכנה Android Studio צריכה להיות עכשיו פתוחה מולכם ואתם אמורים לראות מסך שדומה לזה:  
 ![תחילת קוד](res/initialOpMode.png)
+<details>
+<summary>תתחילו בהגדרת שני מנועים ושני מספרים בתוך `runOpMode`</summary>
+```
+    public void runOpMode() {
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
 
+        waitForStart();
+```
+</details>
