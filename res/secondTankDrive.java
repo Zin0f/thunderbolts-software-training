@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.*;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
 @TeleOp(name = "tank drive")
 public class TankDrive extends LinearOpMode {
@@ -20,8 +24,10 @@ public class TankDrive extends LinearOpMode {
         right_motor.setDirection(REVERSE);
 
         waitForStart();//אחרי אתחול נחכה שנלחץ על כפתור ההפעלה
-        left_motor.setPower(0.5);
-        right_motor.setPower(0.5);
-
+        while (opModeIsActive()) {
+            left_motor.setPower(0.5);
+            right_motor.setPower(0.5);
+        }
+        
     }
 }
