@@ -9,9 +9,7 @@ public class TankDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         //קוד אתחול צריך להיות כאן
         waitForStart();//אחרי אתחול נחכה שנלחץ על כפתור ההפעלה
-        while (opModeIsActive()){
-            //קוד תפעול צריך להיות כאן
-        }
+        
 
     }
 }
