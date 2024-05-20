@@ -10,7 +10,7 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 @TeleOp(name = "tank drive")
 public class TankDrive extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         //קוד אתחול צריך להיות כאן
         waitForStart();//אחרי אתחול נחכה שנלחץ על כפתור ההפעלה
         while (opModeIsActive()) {
