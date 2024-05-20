@@ -9,4 +9,4 @@
 [הdashboard של הftc](https://acmerobotics.github.io/ftc-dashboard/)  
 [אם שואלים למה מספר עשרוני נקרא float](https://www.youtube.com/watch?v=PZRI1IfStY0)  
 
-אם נשאר זמן אחרי שהחדשים נהגו ברובוט אז תלוי במקום הזמן אפשר לעבור לשיעור 2 או להרחיב שדברים שהוסברו במהירות בשיעור.
+אם נשאר זמן אחרי שהחדשים נהגו ברובוט אז תלוי במקום הזמן אפשר לעבור [לשיעור 2](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-2) או להרחיב שדברים שהוסברו במהירות בשיעור.
