@@ -3,23 +3,28 @@ package org.firstinspires.ftc.teamcode;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.*;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @TeleOp(name = "tank drive")
-public class TankDrive extends LinearOpMode {
+public class Drive extends LinearOpMode {
     @Config
     public static class parameters{
         public static float speed_reduction=1;
     }
     @Override
     public void runOpMode()  {
+        Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
+
         DcMotor left_motor;
         DcMotor right_motor;
-        float speed_left;
-        float speed_right;
+        float speed_left=0;
+        float speed_right=0;
         float y,x;
         boolean slow_mode=false;
         boolean previous_a=false;
@@ -57,7 +62,11 @@ public class TankDrive extends LinearOpMode {
                 left_motor.setPower(speed_left);
                 right_motor.setPower(speed_right);
             }
-        }
 
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            dashboard.addData("is in slow mode",slow_mode);
+            dashboard.update();
+        }
     }
 }
