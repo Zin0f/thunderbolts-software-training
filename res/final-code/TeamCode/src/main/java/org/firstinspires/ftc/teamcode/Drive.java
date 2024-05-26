@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Drive extends LinearOpMode {
     @Config
     public static class parameters{
-        public static float speed_reduction=1;
+        public static float speed_reduction=2;
     }
     @Override
     public void runOpMode()  {
