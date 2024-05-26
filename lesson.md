@@ -36,7 +36,7 @@ while (opModeIsActive()){
 <details>
 <summary dir="rtl">תוסיפו לקוד את הכפתור שמעט את הנהיגה</summary>  
     
-
+```  
 public void runOpMode()  {  
             ...
             while (opModeIsActive()){
@@ -58,6 +58,5 @@ public void runOpMode()  {
 
     }
 }  
-
 ```  
 </details>
