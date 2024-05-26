@@ -36,6 +36,6 @@ while (opModeIsActive()){
 <details>
 <summary dir="rtl">תוסיפו לקוד משיעור קודם את הכפתור שמעט את הנהיגה</summary>  
 ```
-
+s
 ```
 </details>
