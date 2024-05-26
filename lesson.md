@@ -35,7 +35,29 @@ while (opModeIsActive()){
 ```
 <details>
 <summary dir="rtl">תוסיפו לקוד את הכפתור שמעט את הנהיגה</summary>  
-```
-s
-```
+    
+
+public void runOpMode()  {  
+            ...
+            while (opModeIsActive()){
+            speed_left=-gamepad1.left_stick_y;
+            speed_right=gamepad1.right_stick_y;
+
+            if(gamepad1.a){ //add this
+                speed_left=speed_left/2;
+                speed_right=speed_right/2;
+            }  
+
+            left_motor.setPower(speed_left);
+            right_motor.setPower(speed_right);
+
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            dashboard.update();
+        }
+
+    }
+}  
+
+```  
 </details>
