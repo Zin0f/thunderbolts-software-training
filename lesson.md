@@ -135,4 +135,5 @@ public void runOpMode()  {
         speed_right=speed_right/2;
     }
  ```
-## קבלת מידע מהdashboard
+## קבלת מידע מהdashboard  
+הdashboard מאפשר לנו להציג מידע אבל גם מאשפר לנו לקבלת מידע מהמחשב לקוד. 
