@@ -135,3 +135,4 @@ public void runOpMode()  {
         speed_right=speed_right/2;
     }
  ```
+## קבלת מידע מהdashboard
