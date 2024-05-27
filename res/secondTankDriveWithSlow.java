@@ -17,7 +17,8 @@ public class TankDrive extends LinearOpMode {
         DcMotor right_motor;
         float speed_left;
         float speed_right;
-
+        boolean slowed;
+        
         left_motor = hardwareMap.dcMotor.get("1");
         right_motor = hardwareMap.dcMotor.get("2");
 
@@ -32,9 +33,14 @@ public class TankDrive extends LinearOpMode {
             speed_left=-gamepad1.left_stick_y;
             speed_right=gamepad1.right_stick_y;
             
-            if(gamepad1.a){ //add this
+       
+            if(gamepad1.a){
                 speed_left=speed_left/2;
                 speed_right=speed_right/2;
+                slowed=true;
+            }
+            else {
+                slowed=false;
             }
 
             left_motor.setPower(speed_left);
@@ -42,6 +48,8 @@ public class TankDrive extends LinearOpMode {
 
             dashboard.addData("left speed",speed_left);
             dashboard.addData("right speed",speed_right);
+            dashboard.addData("robot is slowed",slow);
+
             dashboard.update();
         }
 

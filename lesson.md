@@ -79,4 +79,59 @@ public void runOpMode()  {
         dashboard.addData("robot is being slowed",slowed);
     }
 ```
- בדוגמה הגדרנו משתנה מסוג `boolean` שישמור האם הרובוט מואט או לא מואט. אם (`if`) הכפתור `A` לחוץ אז מצביעים ב`slowed` שהרובוט מואט כרגע (`true`) אחרת (`else`) מציבים ב`slowed` שהרובוט **לא** מואט כרגע (`false`). הגדרה של המצב של הרובוט בתוך מתשנה (`slowed`) גם מאפשרת לנו להדפיס את המשתנה הזה לdashboard, זה יהיה שימושי בהמשך כשאשר יהיה יותר קשה לדעת בדיוק מה המצב של הרובוט. 
+ בדוגמה הגדרנו משתנה מסוג `boolean` שישמור האם הרובוט מואט או לא מואט. אם (`if`) הכפתור `A` לחוץ אז מצביעים ב`slowed` שהרובוט מואט כרגע (`true`) אחרת (`else`) מציבים ב`slowed` שהרובוט **לא** מואט כרגע (`false`). הגדרה של המצב של הרובוט בתוך מתשנה (`slowed`) גם מאפשרת לנו להדפיס את המשתנה הזה לdashboard, זה יהיה שימושי בהמשך כשאשר יהיה יותר קשה לדעת בדיוק מה המצב של הרובוט. אפשר גם להוציא החילוק בשתיים לתנאי שבודק רק את `slowed` ולא ישירות את הכפתור (תראו שזה יהיה שימושי בהמשך).  
+ הקוד אחרי השינוי יראה כך:  
+ ```java
+   public void runOpMode()  {
+        Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
+
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+        boolean slowed;
+        
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+        while (opModeIsActive()){
+            speed_left=-gamepad1.left_stick_y;
+            speed_right=gamepad1.right_stick_y;
+            
+            if(gamepad1.a){
+                speed_left=speed_left/2;
+                speed_right=speed_right/2;
+                slowed=true;
+            }
+            else {
+                slowed=false;
+            }
+
+            left_motor.setPower(speed_left);
+            right_motor.setPower(speed_right);
+
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            dashboard.addData("robot is slowed",slowed);
+
+            dashboard.update();
+        }
+
+    }
+ ```  
+שימו שבגלל שהכפתור מיוצג על ידי סוג משתנה `boolean` וגם המצב של הרובוט מוייצג על `boolean` אפשר לכתוב גם כך במקום להשתמש בelse.   
+ ```java
+    slowed=gamepad1.a; 
+
+    if(slowed){
+        speed_left=speed_left/2;
+        speed_right=speed_right/2;
+    }
+ ```
