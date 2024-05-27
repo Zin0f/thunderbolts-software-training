@@ -43,7 +43,8 @@ public void runOpMode()  {
             speed_left=-gamepad1.left_stick_y;
             speed_right=gamepad1.right_stick_y;
 
-            if(gamepad1.a){ //add this
+            //add if below
+            if(gamepad1.a){ 
                 speed_left=speed_left/2;
                 speed_right=speed_right/2;
             }  
@@ -60,4 +61,5 @@ public void runOpMode()  {
 }  
 ```  
 </details>  
-תורידו את הקוד לרובוט ותבדקו האם הכפתור פועל. (אפשר להתכסל או על האם הרובוט נוסע לאט יותר או על הdashboard). 
+
+תורידו את הקוד לרובוט ותבדקו האם הכפתור פועל. (אפשר להסתכל או על האם הרובוט נוסע לאט יותר או על הdashboard). 
