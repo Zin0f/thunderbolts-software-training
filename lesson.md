@@ -34,7 +34,7 @@ while (opModeIsActive()){
 
 ```
 <details>
-<summary dir="rtl">תוסיפו לקוד את הכפתור שמעט את הנהיגה</summary>  
+<summary dir="rtl">תוסיפו לקוד את הכפתור שמאט את הנהיגה</summary>  
     
 ```  
 public void runOpMode()  {  
@@ -59,4 +59,5 @@ public void runOpMode()  {
     }
 }  
 ```  
-</details>
+</details>  
+תורידו את הקוד לרובוט ותבדקו האם הכפתור פועל. (אפשר להתכסל או על האם הרובוט נוסע לאט יותר או על הdashboard). 
