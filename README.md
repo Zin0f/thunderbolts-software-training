@@ -10,7 +10,7 @@
 - מסמך הכנות בשביל מעבירי השיעור
 
 אפשר להגיע לשיעורים דרך קישורים פה או דרך branches בrepository הזו.  
-*[ שיעור 1 - tank drive](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-1)  
+*[ שיעור 1 - tank drive + floats](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-1)  
 *[ שיעור 2 - booleans + dashboard](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-2)  
 *[ שיעור 3 - ](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-3)  
 *[ שיעור 4 - ](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-4)  
