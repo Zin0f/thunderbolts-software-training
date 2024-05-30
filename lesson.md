@@ -6,25 +6,26 @@
 ```java
 boolean A_pressed;
 A_pressed=gamepad.a;
-```
+```  
 
-כדאי להשתמש במתשנה מסוג `boolean` צריך להשתמש במה שנקרא `if`. ל`if` יש שני חלקים:  
+כדאי להשתמש במשתנה מסוג `boolean` צריך להשתמש במה שנקרא `if`. ל`if` יש שני חלקים:  
   *  תנאי, הוא נמצא בתוך הסוגריים רגילות `()` ואם הערך של המשתנה שמשמש כתנאי הוא `true` אז הקוד בחלק השני יתבצע.  
-  * קוד, נמצאים בתוך הסוגריים המסולסלות `{}` אחרי התנאי מצבתע רק אם התנאי נכון (ערכו `true`).  
-  
- 
+  * קוד, נמצאים בתוך הסוגריים המסולסלות `{}`  ומתבצע רק אם התנאי נכון (ערכו `true`).  
+    
   ```java
   if (codition)
   {
     code that only excutes if the codition is true
   }
   code that will excute regadless of the codition.
-```
+```  
+  
+עכשיו, לדוגמה, אנחנו יכולים להכין כפתור שכאשר נלחץ עליו הרובוט יסע לאט יותר מפי 2. לשם כך אנחנו צריכים להוסיף הגדרת משתנה באתחול הקוד ו`if` בלולאה. נתחיל בהגדרת מתשנה מסוג `boolean` בקוד משיעור קודם בחלק של האתחול. אחרי כך בתוך הלולאה ניגש לכפתור ונציב את הערך שלו במתשנה. אחרי ההצבה נוסיף `if` שבודק את המתשנה ובקוד של ה`if` נציב ערכים חדשים במשתנים `speed_right` `speed_left`. הסימן לחילוק הוא `/` והסימון לכפל הוא `*`.  
 
-עכשיו, לדוגמה, אנחנו יכולים להכין כפתור שכאשר נלחץ עליו הרובוט יסע לאט יותר מפי 2. לשם כך אנחנו צריכים להוסיף הגדרת משתנה באתחול הקוד ו`if` בלולאה. 
+
 
 <details>
-<summary dir="rtl">בהמשך לקוד משיעור קודם הגדרת משתנה מסוג `boolean`</summary>  
+<summary dir="rtl">הגדרת מתשנה חדש</summary>  
     
 ```java  
 public void runOpMode()  {  
@@ -36,12 +37,13 @@ public void runOpMode()  {
     boolean slow_robot; // המשתנה שיכיל את הערך מהכפתור 
     ...
     
-}  
+}
 ```  
 </details>  
-<details>
-<summary dir="rtl">תוסיפו בלולאה `if` שהתנאי שלו הוא המשתנה שהגדרתם ובקוד שלו הציבו ערך חדש ב`speed_left` ו`speed_right`. סימון החילוק הוא `/`</summary>  
-    
+
+<details> 
+<summary dir="rtl">הצבת הערך של הכפתור במתשנה </summary>  
+ 
 ```java  
 public void runOpMode()  {  
     ...
@@ -49,13 +51,32 @@ public void runOpMode()  {
     while (opModeIsActive()){
         speed_left=-gamepad1.left_stick_y;
         speed_right=gamepad1.right_stick_y;
+        slow_robot=gamepad1.a; // הצבת הערך של הכפתור במשתנה 
+
+        left_motor.setPower(speed_left);
+        right_motor.setPower(speed_right);
+    }
+}  
+```
+</details>  
+
+<details> 
+<summary dir="rtl">התנאי ושינוי ערכי המהירות</summary>
+
+```java
+
+public void runOpMode()  {  
+    ...
+    waitForStart();
+    while (opModeIsActive()){
+        speed_left=-gamepad1.left_stick_y;
+        speed_right=gamepad1.right_stick_y;
         slow_robot=gamepad1.a;
-    
-        if(slow_robot){
+
+        if(slow_robot){// התנאי והקוד של התנאי
             speed_left=speed_left/2;
             speed_right=speed_right/2;
         }
-        
 
         left_motor.setPower(speed_left);
         right_motor.setPower(speed_right);
