@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class TankDrive extends LinearOpMode {
     @Override
     public void runOpMode()  {
+        Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
 
         DcMotor left_motor;
         DcMotor right_motor;
@@ -38,9 +39,13 @@ public class TankDrive extends LinearOpMode {
                 speed_right=speed_right/2;
             }
             
-
             left_motor.setPower(speed_left);
             right_motor.setPower(speed_right);
+
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+
+            dashboard.update();
         }
 
     }

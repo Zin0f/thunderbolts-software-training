@@ -101,5 +101,51 @@ Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
 
     dashboard.update();
 ```  
+
+<details> 
+<summary dir="rtl">הקוד אחרי הוספת הdashboard צריך להראות כך</summary>
+
+```java
+public void runOpMode()  {
+    Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
+
+    DcMotor left_motor;
+    DcMotor right_motor;
+    float speed_left;
+    float speed_right;
+    boolean slow_robot;
+    
+    left_motor = hardwareMap.dcMotor.get("1");
+    right_motor = hardwareMap.dcMotor.get("2");
+
+    left_motor.setMode(RUN_WITHOUT_ENCODER);
+    right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+    left_motor.setDirection(FORWARD);
+    right_motor.setDirection(REVERSE);
+
+    waitForStart();
+    while (opModeIsActive()){
+        speed_left=-gamepad1.left_stick_y;
+        speed_right=gamepad1.right_stick_y;
+        slow_robot=gamepad1.a;
+    
+        if(slow_robot){
+            speed_left=speed_left/2;
+            speed_right=speed_right/2;
+        }
+        
+        left_motor.setPower(speed_left);
+        right_motor.setPower(speed_right);
+
+        dashboard.addData("left speed",speed_left);
+        dashboard.addData("right speed",speed_right);
+
+        dashboard.update();
+    }
+
+}  
+```  
+</details>  
 תרידו את הקוד לרובוט ותפעילו אותו. אתם יכולים לראות עכשיו בפינה הימנית למטה את הערכים שהמנועים מקבלים. אפשר אפילו לראות את הערכים כגרף.  
 <!-- צריך להוסיף תמונה של שתמחיש את השורה למעלה -->  
