@@ -21,7 +21,49 @@ A_pressed=gamepad.a;
   code that will excute regadless of the codition.
 ```
 
-עכשיו, לדוגמה, אנחנו יכולים להכין כפתור שכאשר נלחץ עליו הרובוט יסע לאט יותר מפי 2.
+עכשיו, לדוגמה, אנחנו יכולים להכין כפתור שכאשר נלחץ עליו הרובוט יסע לאט יותר מפי 2. לשם כך אנחנו צריכים להוסיף הגדרת משתנה באתחול הקוד ו`if` בלולאה. 
+
+<details>
+<summary dir="rtl">בהמשך לקוד משיעור קודם הגדרת משתנה מסוג `boolean`</summary>  
+    
+```java  
+public void runOpMode()  {  
+           
+    DcMotor left_motor;
+    DcMotor right_motor;
+    float speed_left;
+    float speed_right;
+    boolean slow_robot; // המשתנה שיכיל את הערך מהכפתור 
+    ...
+    
+}  
+```  
+</details>  
+<details>
+<summary dir="rtl">תוסיפו בלולאה `if` שהתנאי שלו הוא המשתנה שהגדרתם ובקוד שלו הציבו ערך חדש ב`speed_left` ו`speed_right`. סימון החילוק הוא `/`</summary>  
+    
+```java  
+public void runOpMode()  {  
+    ...
+    waitForStart();
+    while (opModeIsActive()){
+        speed_left=-gamepad1.left_stick_y;
+        speed_right=gamepad1.right_stick_y;
+        slow_robot=gamepad1.a;
+    
+        if(slow_robot){
+            speed_left=speed_left/2;
+            speed_right=speed_right/2;
+        }
+        
+
+        left_motor.setPower(speed_left);
+        right_motor.setPower(speed_right);
+    }
+}  
+```  
+</details>  
+
 
 ## הצגת מידע dashboard  
 בשיעור קודמת העפלנו מנועים בעזרת הפעולה `()setPower` ונתנו לפעולה ערכים לפי הגויסטיקים. בעיור הזה נתחיל להציג את הערכו האלו על המחשב, בעזרת מה שנקרא dashboard. תתחילו בהוספת השורה למטה בתחילת `runOpMode`. השורה מגדירה משתנה שנותן גישה לdashboash.

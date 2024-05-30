@@ -6,18 +6,17 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.acmerobotics.dashboard.FtcDashboard;
+
 @TeleOp(name = "tank drive")
 public class TankDrive extends LinearOpMode {
     @Override
     public void runOpMode()  {
-        Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
 
         DcMotor left_motor;
         DcMotor right_motor;
         float speed_left;
         float speed_right;
-        boolean slowed;
+        boolean slow_robot;
         
         left_motor = hardwareMap.dcMotor.get("1");
         right_motor = hardwareMap.dcMotor.get("2");
@@ -32,25 +31,16 @@ public class TankDrive extends LinearOpMode {
         while (opModeIsActive()){
             speed_left=-gamepad1.left_stick_y;
             speed_right=gamepad1.right_stick_y;
-            
+            slow_robot=gamepad1.a;
        
-            if(gamepad1.a){
+            if(slow_robot){
                 speed_left=speed_left/2;
                 speed_right=speed_right/2;
-                slowed=true;
             }
-            else {
-                slowed=false;
-            }
+            
 
             left_motor.setPower(speed_left);
             right_motor.setPower(speed_right);
-
-            dashboard.addData("left speed",speed_left);
-            dashboard.addData("right speed",speed_right);
-            dashboard.addData("robot is slowed",slow);
-
-            dashboard.update();
         }
 
     }
