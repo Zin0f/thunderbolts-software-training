@@ -94,7 +94,7 @@ public void runOpMode()  {
 ```java
 Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
 ```  
-לאחרי מכן בסוף הלולאה תסיפו את שתי השלוש שורות האלו. השתיים הראשונות מעבירה את הערכים ב`speed_left` ו`speed_right` בdashboard. השורה האחרונה מעדכנן את האתר במחשב עם הערכים שעברנו לdashboard. עידכון צריך לקרות פעם אחד בכל לולאה.
+לאחרי מכן בסוף הלולאה תסיפו את שלוש שורות האלו. השתיים הראשונות מעבירה את הערכים ב`speed_left` ו`speed_right` בdashboard. השורה האחרונה מעדכנן את האתר במחשב עם הערכים שעברנו לdashboard. עידכון צריך לקרות פעם אחד בכל לולאה.
 ```java
     dashboard.addData("left speed",speed_left);
     dashboard.addData("right speed",speed_right);
