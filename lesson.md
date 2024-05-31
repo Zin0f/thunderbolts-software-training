@@ -1,7 +1,7 @@
 # שיעור #2 
 בשיעור זה נלמד איך להשתמש בכפתורים ולהציג מידע מהרובוט במחשב שלנו  
 ## כפתורים  
-ראינו שכאשר אנחנו ניגשים לג'ויסטיק אנחנו מקבלים ערך מסוג `float`. הסוג משתנה שכפתורים נותנים לנו נקרא `boolean` ויש לו רק שתי ערכים אפשריים, `true` ו`false` והם יכולים לייצג "לחוץ" (`true`) ו"לא לחוץ"(`false`). ניגשים לכפורים באותה צורה שניגשים לג'ויסטיק.  
+ראינו שכאשר אנחנו ניגשים לג'ויסטיק אנחנו מקבלים ערך מסוג `float`. הסוג משתנה שכפתורים נותנים לנו נקרא `boolean` ויש לו רק שתי ערכים אפשריים, `true` ו`false` והם יכולים לייצג "לחוץ" (`true`) ו"לא לחוץ"(`false`). ניגשים לכפורים באותה צורה שניגשים לג`ויסטיק.  
 
 ```java
 boolean A_pressed;
@@ -90,17 +90,20 @@ public void runOpMode()  {
 
 
 ## הצגת מידע dashboard  
-עד כמו כשרצינו לראות האם הקוד שכתבנו עובד הרצנו אותו על הרובוט וראינו את ההתנהגות הפיזית שלו. זה יכול להיות טוב לבדיקות מסויימות ואבל עובד פחות טוב לבדיקות אחרות. לכן יש לנו כלי נוסף שמאפשר להציג מידע מהרובוט למחשב, הכלי נקרא dashboard ובעצם השתמשתם בו כבר בשביל להפעיל את הרובוט. בשביל להשתמש בdashboard צריך באחול הקוד להגדיר משתנה שישמש כקישור לdashabord.  
+עד כמו כשרצינו לראות האם הקוד שכתבנו עובד הרצנו אותו על הרובוט וראינו את ההתנהגות הפיזית שלו. זה יכול להיות טוב לבדיקות מסויימות ואבל עובד פחות טוב לבדיקות אחרות. לכן יש לנו כלי נוסף שמאפשר להציג מידע מהרובוט למחשב, הכלי נקרא dashboard ובעצם השתמשתם בו כבר בשביל להפעיל את הרובוט. בשביל להשתמש בdashboard צריך באתחול הקוד להגדיר משתנה שישמש כקישור לdashabord.  
 ```java
 Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
 ```  
-לאחרי מכן בסוף הלולאה תסיפו את שלוש שורות האלו. השתיים הראשונות מעבירה את הערכים ב`speed_left` ו`speed_right` בdashboard. השורה האחרונה מעדכנן את האתר במחשב עם הערכים שעברנו לdashboard. עידכון צריך לקרות פעם אחד בכל לולאה.
+לאחרי מכן בסוף הלולאה תסיפו את ארבע שורות האלו. השלוש הראשונות מעבירה את הערכים ב`speed_left`, `slow_robot` ו`speed_right` בdashboard. השורה האחרונה מעדכנן את האתר במחשב עם הערכים שעברנו לdashboard. עידכון צריך לקרות פעם אחד בכל לולאה.  
 ```java
     dashboard.addData("left speed",speed_left);
     dashboard.addData("right speed",speed_right);
-
+    dashboard.addData("slow robot",slow_robot);
+ 
     dashboard.update();
-```  
+```
+המילים בתוך הגרשיים `"left_speed"` הן המילים שייצגו בdashboard ליד הערך של המשתנה.  
+
 
 <details> 
 <summary dir="rtl">הקוד אחרי הוספת הdashboard צריך להראות כך</summary>
@@ -140,6 +143,7 @@ public void runOpMode()  {
 
         dashboard.addData("left speed",speed_left);
         dashboard.addData("right speed",speed_right);
+        dashboard.addData("slow robot",slow_robot);
 
         dashboard.update();
     }
@@ -152,7 +156,7 @@ public void runOpMode()  {
 <!-- צריך להוסיף תמונה של שתמחיש את השורה למעלה -->  
 
 ## לוגיקה בוליאנית  
-בתחילת השיעור ראינו שאפשר להציב במשתנה מסוג 'boolean' (משתנה בולאני) ערך ולבדוק אותו אחרי כך אם 'if', אבל אפשר לבצע איתם גם חיבורים לוגיים כמו "וגם", "או" ו"אם לא". החיבורים האלו יחזירו 'boolean' ואפשר לחשב אותם בהצבה או בif. להלן כמה דוגמאות.  
+בתחילת השיעור ראינו שאפשר להציב במשתנה מסוג `boolean` (משתנה בולאני) ערך ולבדוק אותו אחרי כך אם `if`, אבל אפשר לבצע איתם גם חיבורים לוגיים כמו "וגם", "או" ו"אם לא". החיבורים האלו מחזירים `boolean`  כמו שחיבור מספרים נותן לנו מספר, אפשר להשתמש בהם בהצבה או בתוך תוך התאני של `if`. להלן כמה דוגמאות.  
 
 בדיקה האם אחד משני תנאים נכונים בתוך if בעזרת `||`
 ```java
@@ -161,7 +165,7 @@ public void runOpMode()  {
 
  if(A || B)
  {
-   code // הקוד התבצע רק אם הכפתור A והכפתור B לחוץ 
+   code // this excutes when either A or B are pressed 
  }
 ```
  הצבה במשתנה האם שני תנאים נכונים בעזרת `&&`
@@ -171,14 +175,17 @@ public void runOpMode()  {
  boolean condition;
  ...
  condition = A_Button && B_Button;
-
+ if(condition)
+ {
+  code // this exuctes only when both A and B are pressed
+ }
 ``` 
 בדיקה האם תנאי לא נכון בעזרת `!`
 ```java
  boolean A_Button;
  ...
  if(!A_Button){
-  code // הקוד מתבצע רק אם הכפתור A לא לחוץ
+  code // this only excutes if A is not pressed
  }
 ```
 בדיקה האם תנאי נכון ומקודם היה לא נכון בעזרת `!`ו`&&`   
@@ -217,7 +224,7 @@ public void runOpMode()  {
 
         slow_robot=gamepad1.a && (!previos_A_button); // added the requirement that the button needs to be previously not pressed (&& !previos_A_button)
         
-        if(slow_robot){ //note that this if hasn't changed
+        if(slow_robot){ //note that this if hasn`t changed
             speed_left=speed_left/2;
             speed_right=speed_right/2;
         }
@@ -227,6 +234,7 @@ public void runOpMode()  {
 
         dashboard.addData("left speed",speed_left);
         dashboard.addData("right speed",speed_right);
+        dashboard.addData("slow robot",slow_robot);
 
         dashboard.update();
 
