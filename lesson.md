@@ -145,7 +145,94 @@ public void runOpMode()  {
     }
 
 }  
-```  
+```
 </details>  
- תרידו את הקוד לרובוט ותפעילו אותו. אתם יכולים לראות עכשיו בפינה הימנית למטה את הערכים שהמנועים מקבלים. אפשר אפילו לראות את הערכים כגרף  .  
+
+  תרידו את הקוד לרובוט ותפעילו אותו. אתם יכולים לראות עכשיו בפינה הימנית למטה את הערכים שהמנועים מקבלים. אפשר אפילו לראות את הערכים כגרף.    
 <!-- צריך להוסיף תמונה של שתמחיש את השורה למעלה -->  
+
+## לוגיקה בוליאנית  
+בתחילת השיעור ראינו שאפשר להציב במשתנה מסוג 'boolean' (משתנה בולאני) ערך ולבדוק אותו אחרי כך אם 'if', אבל אפשר לבצע איתם גם חיבורים לוגיים כמו "וגם", "או" ו"אם לא". החיבורים האלו יחזירו 'boolean' ואפשר לחשב אותם בהצבה או בif. להלן כמה דוגמאות.  
+
+בדיקה האם אחד משני תנאים נכונים בתוך if בעזרת `||`
+```java
+ boolean A_Button;
+ boolean B_Button;
+
+ if(A || B)
+ {
+   code // הקוד התבצע רק אם הכפתור A והכפתור B לחוץ 
+ }
+```
+ הצבה במשתנה האם שני תנאים נכונים בעזרת `&&`
+```java
+ boolean A_Button;
+ boolean B_Button;
+ boolean condition;
+ ...
+ condition = A_Button && B_Button;
+
+``` 
+בדיקה האם תנאי לא נכון בעזרת `!`
+```java
+ boolean A_Button;
+ ...
+ if(!A_Button){
+  code // הקוד מתבצע רק אם הכפתור A לא לחוץ
+ }
+```
+בדיקה האם תנאי נכון ומקודם היה לא נכון בעזרת `!`ו`&&`   
+```java
+ boolean A_Button;
+ boolean prev_A_Button;
+ ...
+ prev_A_Button = A_Button;
+ A_Button = gamepad1.a;
+
+ if(A_Button && (!prev_A_Button) ){
+   code // הקודם מתבצע רק עם הכפתור לחוץ ומקודם הוא היה לחוץ
+ }
+```  
+בעזרת החיבורים הלוגים האלו אנחנו יכולים לשנות את ההתנהגות של הכפתור האטה ככה שלחיצה אחת תעביר את הרובוט למצב איטי ולחיצה נוספת כדי להחזיר לנסיעה רגילה.  
+נעשה את זה על ידי הוספת משתנה שישמור את הערך של הכפתור מהלולאה הקודמת ו`if` בדומה לדוגמה האחרונה.  
+
+
+```java
+public void runOpMode()  {
+    Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
+
+    DcMotor left_motor;
+    DcMotor right_motor;
+    float speed_left;
+    float speed_right;
+    boolean previos_A_button; //added this
+
+    boolean slow_robot;
+    
+    ...
+    waitForStart();
+    while (opModeIsActive()){
+        speed_left=-gamepad1.left_stick_y;
+        speed_right=gamepad1.right_stick_y;
+
+        slow_robot=gamepad1.a && (!previos_A_button); // added the requirement that the button needs to be previously not pressed (&& !previos_A_button)
+        
+        if(slow_robot){ //note that this if hasn't changed
+            speed_left=speed_left/2;
+            speed_right=speed_right/2;
+        }
+        
+        left_motor.setPower(speed_left);
+        right_motor.setPower(speed_right);
+
+        dashboard.addData("left speed",speed_left);
+        dashboard.addData("right speed",speed_right);
+
+        dashboard.update();
+
+        previos_A_button=gamepad1.a; // this line at the end so it will correctly be the last value of A when we are in the next loop iteration. 
+      
+    }
+
+}  
+```
