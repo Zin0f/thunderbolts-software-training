@@ -4,7 +4,6 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.*;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,10 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name = "tank drive")
 public class Drive extends LinearOpMode {
-    @Config
-    public static class parameters{
-        public static float speed_reduction=2;
-    }
+    
     @Override
     public void runOpMode()  {
         Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
