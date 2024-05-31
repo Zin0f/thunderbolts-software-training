@@ -212,7 +212,7 @@ public void runOpMode()  {
     DcMotor right_motor;
     float speed_left;
     float speed_right;
-    boolean previos_A_button; //added this
+    boolean previous_A_button; //added this
 
     boolean slow_robot;
     
@@ -222,7 +222,7 @@ public void runOpMode()  {
         speed_left=-gamepad1.left_stick_y;
         speed_right=gamepad1.right_stick_y;
 
-        slow_robot=gamepad1.a && (!previos_A_button); // added the requirement that the button needs to be previously not pressed (&& !previos_A_button)
+        slow_robot=gamepad1.a && (!previous_A_button); // added the requirement that the button needs to be previously not pressed (&& !previous_A_button)
         
         if(slow_robot){ //note that this if hasn`t changed
             speed_left=speed_left/2;
@@ -238,7 +238,7 @@ public void runOpMode()  {
 
         dashboard.update();
 
-        previos_A_button=gamepad1.a; // this line at the end so it will correctly be the last value of A when we are in the next loop iteration. 
+        previous_A_button=gamepad1.a; // this line at the end so it will correctly be the last value of A when we are in the next loop iteration. 
       
     }
 
