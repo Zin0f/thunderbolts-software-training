@@ -25,9 +25,8 @@ public class Drive extends LinearOpMode {
         DcMotor right_motor;
         float speed_left=0;
         float speed_right=0;
-        float y,x;
-        boolean slow_mode=false;
-        boolean previous_a=false;
+        boolean slow_robot=false;
+        boolean previous_A_button=false;
 
         left_motor = hardwareMap.dcMotor.get("1");
         right_motor = hardwareMap.dcMotor.get("2");
@@ -39,35 +38,28 @@ public class Drive extends LinearOpMode {
         right_motor.setDirection(REVERSE);
 
         waitForStart();
-        while (opModeIsActive()){
-
-            if(gamepad1.a&&previous_a)
-            {
-                slow_mode=!slow_mode;
+       while (opModeIsActive()){
+            speed_left=-gamepad1.left_stick_y;
+            speed_right=gamepad1.right_stick_y;
+    
+            slow_robot=gamepad1.a && (!previos_A_button); 
+            
+            if(slow_robot){ 
+                speed_left=speed_left/2;
+                speed_right=speed_right/2;
             }
-
-            previous_a=gamepad1.a;
-
-            y=gamepad1.left_stick_y;
-            x=gamepad1.left_stick_x;
-
-            speed_left=y-x;
-            speed_right=y+x;
-
-            if(slow_mode) {
-                speed_right = speed_right / parameters.speed_reduction;
-                speed_left = speed_left / parameters.speed_reduction;
-            }
-
-            if(Math.abs(y)>0.1 || Math.abs(x)>0.1){
-                left_motor.setPower(speed_left);
-                right_motor.setPower(speed_right);
-            }
-
+            
+            left_motor.setPower(speed_left);
+            right_motor.setPower(speed_right);
+    
             dashboard.addData("left speed",speed_left);
             dashboard.addData("right speed",speed_right);
-            dashboard.addData("is in slow mode",slow_mode);
+            dashboard.addData("slow robot",slow_robot);
+    
             dashboard.update();
+    
+            previos_A_button=gamepad1.a;
+          
         }
     }
 }
