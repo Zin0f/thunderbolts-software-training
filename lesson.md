@@ -168,6 +168,18 @@ public void runOpMode()  {
    code // this excutes when either A or B are pressed 
  }
 ```
+בדיקה האם שני התנאים בעלי ערך זהה (שניהם `false` או שניהם `true` בתוך if בעזרת `==`  
+
+```java
+ boolean A_Button;
+ boolean B_Button;
+
+ if(A == B)
+ {
+   code // this excutes when either A or B are pressed 
+ }
+```
+
  הצבה במשתנה האם שני תנאים נכונים בעזרת `&&`
 ```java
  boolean A_Button;
