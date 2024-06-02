@@ -7,12 +7,17 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name = "tank drive")
 public class Drive extends LinearOpMode {
-    
+    public enum RobotStates{
+        MANUAL_DRIVE,
+        AUTO_START_TIMER,
+        AUTO_DRIVE_UNTIL_TIME_IS_UP;
+    } 
     @Override
     public void runOpMode()  {
         Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
@@ -21,8 +26,8 @@ public class Drive extends LinearOpMode {
         DcMotor right_motor;
         float speed_left=0;
         float speed_right=0;
-        boolean slow_robot=false;
-        boolean previous_A_button=false;
+        RobotStates robot_state=RobotStates.MANUAL_DRIVE;
+        ElapsedTime timer=new ElapsedTime();
 
         left_motor = hardwareMap.dcMotor.get("1");
         right_motor = hardwareMap.dcMotor.get("2");
@@ -34,27 +39,46 @@ public class Drive extends LinearOpMode {
         right_motor.setDirection(REVERSE);
 
         waitForStart();
-       while (opModeIsActive()){
+        while (opModeIsActive()){
             speed_left=-gamepad1.left_stick_y;
             speed_right=gamepad1.right_stick_y;
-    
-            slow_robot=gamepad1.a && (!previos_A_button); 
-            
-            if(slow_robot){ 
-                speed_left=speed_left/2;
-                speed_right=speed_right/2;
+
+            switch (robot_state) {
+                case MANUAL_DRIVE:
+                    left_motor.setPower(speed_left);
+                    right_motor.setPower(speed_right);
+
+                    if(gamepad1.b){
+                        robot_state=RobotStates.AUTO_START_TIMER;
+                    }
+                    break;
+
+                case AUTO_START_TIMER:
+                    timer.reset();
+                    robot_state=RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+                    break;
+
+                case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+                    if(timer.seconds()<5) {
+                        left_motor.setPower(0.5);
+                        right_motor.setPower(0.5);
+                    }
+                    else {
+                        robot_state = RobotStates.MANUAL_DRIVE;
+                        left_motor.setPower(0);
+                        right_motor.setPower(0);
+                    }
+                    break;
             }
-            
-            left_motor.setPower(speed_left);
-            right_motor.setPower(speed_right);
-    
+           
             dashboard.addData("left speed",speed_left);
             dashboard.addData("right speed",speed_right);
-            dashboard.addData("slow robot",slow_robot);
-    
+            dashboard.addData("RobotState name",robot_state.name());
+            dashboard.addData("RobotState number",robot_state.ordinal());
+
             dashboard.update();
     
-            previos_A_button=gamepad1.a;
+            
           
         }
     }
