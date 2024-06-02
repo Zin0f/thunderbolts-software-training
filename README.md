@@ -15,7 +15,7 @@
 *[ שיעור 3 - timer auto + state machine WIP](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-3)  
 *[ שיעור 4 - PID + dashboard input WIP](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-4)  
 *[ שיעור 5 - mecanum + functions WIP](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-5)  
-*[ שיעור 6 - ? +subsystems](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-6)  
+*[ שיעור 6 - gripper + subsystems WIP](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-6)  
 
 
 
