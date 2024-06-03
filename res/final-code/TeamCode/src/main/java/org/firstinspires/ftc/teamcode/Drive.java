@@ -20,13 +20,13 @@ public class Drive extends LinearOpMode {
     } 
     @Override
     public void runOpMode()  {
+        RobotStates robot_state=RobotStates.MANUAL_DRIVE;
         Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
 
         DcMotor left_motor;
         DcMotor right_motor;
         float speed_left=0;
         float speed_right=0;
-        RobotStates robot_state=RobotStates.MANUAL_DRIVE;
         ElapsedTime timer=new ElapsedTime();
 
         left_motor = hardwareMap.dcMotor.get("1");
@@ -59,14 +59,11 @@ public class Drive extends LinearOpMode {
                     break;
 
                 case AUTO_DRIVE_UNTIL_TIME_IS_UP:
-                    if(timer.seconds()<5) {
-                        left_motor.setPower(0.5);
-                        right_motor.setPower(0.5);
-                    }
-                    else {
+                    left_motor.setPower(0.5);
+                    right_motor.setPower(0.5);
+
+                    if(timer.seconds()>5) {
                         robot_state = RobotStates.MANUAL_DRIVE;
-                        left_motor.setPower(0);
-                        right_motor.setPower(0);
                     }
                     break;
             }
