@@ -5,13 +5,66 @@
 למכונת מצבים שאנחנו נכתוב יהיו שלושה מצבים:  
   * *נהיגה ידנית* - הקוד שכתבנו בשיעורים קודמים, עוברים ל*התחלת שעון* כאשר הכפתור B לחוץ  
   * *התחלת שעון* - מתחילים טיימר, עוברים למצב הבא "מייד"  
-  * *נסיעה עד שהזמן נגמר* - מפעילים את המנועים במהירות קבועה, עוברים למצב *נהיגה ידנית* כאשר הזמןהטיימר מראה שעברו 5 שניות.
+  * *נסיעה עד שהזמן נגמר* - מפעילים את המנועים במהירות קבועה, עוברים למצב *נהיגה ידנית* כאשר הזמן הטיימר מראה שעברו 5 שניות.
     ## ייצוג מצבים בקוד - enum
-   הדרך הנוחה ביותר לייצג מצבים של מכונת מצבים בקוד היא ידי יצירת סוג משתנה שייצג את המצבים הללו. אנחנו יכולים להכין סוגי משתנים בעזרת `enum`, זה יאפשר לו לתת לערכים של הסוג משתנה איזה שם שאנחנו רוצים ובידיוק כמה ערכים שאנחנו רוצים.
+   הדרך הנוחה ביותר לייצג מצבים של מכונת מצבים בקוד היא ידי יצירת סוג משתנה שייצג את המצבים הללו. אנחנו יכולים להכין סוגי משתנים בעזרת `enum`, זה יאפשר לנו לתת לערכים של הסוג משתנה איזה שם שאנחנו רוצים ובדיוק כמה ערכים שאנחנו רוצים. מגדירים `enum`כך:  
+
+     
+```java
+public enum RobotStates{
+   MANUAL_DRIVE,
+   AUTO_START_TIMER,
+   AUTO_DRIVE_UNTIL_TIME_IS_UP
+} 
+```  
+<!-- בשורה למטה כתוב "ערך" ללפני כל ערך כדי שפסיקים התנהגו טוב ויהיו מימין  לשמאל-->
+השם של ה`enum` (ושל הסוג משתנה) בדוגמה הוא `RobotState` ויש לו שלושה ערכים אפשריים: הערך `MANUAL_DRIVE`, הערך `AUTO_START_TIMER` והערך `AUTO_DRIVE_UNTIL_TIME_IS_UP`. שימו לב שהגדרה של `enum`צריכה להכתב מחוץ לפונקציה.   
+
+    
+אנחנו יכולים להכריז משתנים מהסוג `RobotState` וגם להציב במשתנים את הערכים שהגדרנו ב`enum`. לדוגמה:  
+```
+RobotStates state;
+state = MANUAL_DRIVE;
+if(state==MANUAL_DRIVE){
+  //this code will excute bc 'state' is set to MANUAL_DRIVE
+}
+if(state==AUTO_START_TIMER){
+  //this code will not excute bc 'state' is not set to AUTO_START_TIMER
+}
+```  
+<!---
+  עכשיו תפתחו את הקוד משיעור קודם ותכתבו בו את ההגדרה של ה`enum` מחוץ לפונקציה `runOpMode` ותכריזו על משתנה בחלק של אתחול הקוד
+-->
+<pr></pr><pr></pr>
+<details>
+<summary dir="rtl">עכשיו תפתחו את הקוד משיעור קודם ותכתבו בו את ההגדרה של ה`enum` מחוץ לפונקציה `runOpMode` ותכריזו על משתנה בחלק של אתחול הקוד</summary>  
+    
+```java  
+public class Drive extends LinearOpMode {
+    public enum RobotStates{
+        MANUAL_DRIVE,
+        AUTO_START_TIMER,
+        AUTO_DRIVE_UNTIL_TIME_IS_UP;
+    } 
+    @Override
+    public void runOpMode()  {
+        RobotStates robot_state=RobotStates.MANUAL_DRIVE;
+        ...
+        waitForStart();
+
+```  
+</details>  
 
 
 
-    # הסדר הסבר למטה לא טוב
+
+
+
+
+
+
+
+  # הסדר הסבר למטה לא טוב
  מצבים בקוד יכוליים להיות מיוצגים על ידי מספרים למשל *נהיגה ידנית* יהיה 0, *התחלת שעון* יהיה 1 ו*נסיעה עד שהזמן נגמר* יהיה 2 (תזכרו שלרוב בתכנות מספרים מתחילים מ0) ואז המכונת מצבים בקוד תראה בערך כך:
 ```java
 float robot_state=1;
@@ -151,14 +204,7 @@ switch (robot_state) {
     
 ```java  
 public void runOpMode()  {  
-           
-    DcMotor left_motor;
-    DcMotor right_motor;
-    float speed_left;
-    float speed_right;
-    boolean slow_robot; // המשתנה שיכיל את הערך מהכפתור 
-    ...
-    
+
 }
 ```  
 </details>  
