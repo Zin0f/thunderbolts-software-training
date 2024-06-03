@@ -121,14 +121,14 @@ public void runOpMode()  {
          break;
   
       case AUTO_START_TIMER:
-         timer.start()
+         timer.start();
          robot_state=AUTO_DRIVE_UNTIL_TIME_IS_UP;
          break;
   
       case AUTO_DRIVE_UNTIL_TIME_IS_UP:
          left_motor.setPower(0.5);
          right_motor.setPower(0.5);
-         iftimer.seconds()>5) {
+         if(timer.seconds()>5) {
              robot_state = MANUAL_DRIVE;
          }
          break;
