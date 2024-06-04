@@ -1,3 +1,4 @@
+ [שיעור 1](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-1) | [עמוד ראשי](https://github.com/adiaviad/thunderbolts-software-training/blob/main/README.md) | [שיעור 3](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-3) 
 # שיעור #2 
 בשיעור זה נלמד איך להשתמש בכפתורים ולהציג מידע מהרובוט במחשב שלנו  
 ## כפתורים  
