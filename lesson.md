@@ -374,3 +374,112 @@ public class Drive extends LinearOpMode {
 
 ```  
 </details>  
+<br></br>
+
+## בונוס - כתיבת מסלול   
+ אפשר להוסיף כמה מצבים למכונת מצבים כדי שהרובוט יסע ישר, יפנה במקום ואז יסע ישר עוד קצת וככה לצור מסלול קצר שהרובוט יסע.  
+ ```
+
+@TeleOp(name = "tank drive")
+public class TankDrive extends LinearOpMode {
+    public enum RobotStates {
+        MANUAL_DRIVE,
+        AUTO_START_TIMER_1,
+        AUTO_DRIVE_FOWARD,
+        AUTO_START_TIMER_2,
+        AUTO_TURN_IN_PLACE,
+        AUTO_START_TIMER_3,
+        AUTO_DRIVE_FOWARD_2,
+    }
+
+    @Override
+    public void runOpMode() {
+
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+        boolean slow_robot;
+
+        RobotStates robot_state = RobotStates.MANUAL_DRIVE;
+        ElapsedTime timer = new ElapsedTime();
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+        while (opModeIsActive()) {
+            switch (robot_state) {
+                case MANUAL_DRIVE:
+                    speed_left = -gamepad1.left_stick_y;
+                    speed_right = gamepad1.right_stick_y;
+
+                    left_motor.setPower(speed_left);
+                    right_motor.setPower(speed_right);
+
+                    if (gamepad1.b) {
+                        robot_state = RobotStates.AUTO_START_TIMER;
+                    }
+                    break;
+
+                case AUTO_START_TIMER_1:
+                    timer.reset();
+                    robot_state = RobotStates.AUTO_DRIVE_FOWARD;
+                    break;
+
+                case AUTO_DRIVE_FOWARD:
+                    left_motor.setPower(0.5);
+                    right_motor.setPower(0.5);
+
+                    if (timer.seconds() > 5) {
+                        robot_state = RobotStates.AUTO_START_TIMER_2;
+                    }
+                    break;
+                case AUTO_START_TIMER_2:
+
+                    timer.reset();
+                    robot_state = RobotStates.AUTO_TURN_IN_PLACE;
+                    break;
+                case AUTO_TURN_IN_PLACE:
+                    left_motor.setPower(-0.25);
+                    right_motor.setPower(0.25);
+
+                    if (timer.seconds() > 3) {
+                        robot_state = RobotStates.AUTO_START_TIMER_3;
+                    }
+                    break;
+                case AUTO_START_TIMER_3:
+                    timer.reset();
+                    robot_state = RobotStates.AUTO_DRIVE_FOWARD_2;
+                    break;
+
+                case AUTO_DRIVE_FOWARD_2:
+                    left_motor.setPower(0.4);
+                    right_motor.setPower(0.4);
+
+                    if (timer.seconds() > 8) {
+                        robot_state = RobotStates.AUTO_START_TIMER_2;
+                    }
+                    break;
+
+            }
+
+            dashboard.addData("left speed", speed_left);
+            dashboard.addData("right speed", speed_right);
+            dashboard.addData("RobotState name", robot_state.name());
+            dashboard.addData("RobotState number", robot_state.ordinal());
+
+            dashboard.update();
+        }
+    }
+}
+```
+
+ 
+ 
