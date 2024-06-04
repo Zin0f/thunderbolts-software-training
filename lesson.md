@@ -126,6 +126,71 @@ if(state==AUTO_DRIVE_UNTIL_TIME_IS_UP){
 }
 ```  
 </details>  
+
+  הקוד במלואו צריך להראות כך:  
+ <details>
+<summary dir="rtl">   הקוד במלואו צריך להראות כך       </summary>  
+    
+```java  
+public class TankDrive extends LinearOpMode {
+    public enum RobotStates {
+        MANUAL_DRIVE,
+        AUTO_START_TIMER,
+        AUTO_DRIVE_UNTIL_TIME_IS_UP
+    }
+
+    @Override
+    public void runOpMode() {
+
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+        boolean slow_robot;
+
+        RobotStates robot_state = RobotStates.MANUAL_DRIVE;
+        ElapsedTime timer = new ElapsedTime();
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+        while (opModeIsActive()) {
+            if (state == MANUAL_DRIVE) {
+                speed_left = -gamepad1.left_stick_y;
+                speed_right = gamepad1.right_stick_y;
+
+                left_motor.setPower(speed_left);
+                right_motor.setPower(speed_right);
+
+                if (gamepad1.b) {
+                    robot_state = RobotStates.AUTO_START_TIMER;
+                }
+            }
+            if (state == AUTO_START_TIMER) {
+                timer.reset();
+                robot_state = RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+            }
+            if (state == AUTO_DRIVE_UNTIL_TIME_IS_UP) {
+                left_motor.setPower(0.5);
+                right_motor.setPower(0.5);
+
+                if (timer.seconds() > 5) {
+                    robot_state = RobotStates.MANUAL_DRIVE;
+                }
+            }
+        }
+    }
+}
+```  
+</details>  
+ 
  
  
 
