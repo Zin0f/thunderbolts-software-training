@@ -7,4 +7,3 @@
 [בחירת opmode בdrive station](https://youtu.be/uItHYCxT9eY?t=59)  
 [הקוד שצריך להיות פתוח במחשבים](res/TankDrive.java)  
 לקרוא על [הdashboard של הftc](https://acmerobotics.github.io/ftc-dashboard/)  
-[אם שואלים למה מספר עשרוני נקרא float](https://www.youtube.com/watch?v=PZRI1IfStY0)  
