@@ -1,3 +1,4 @@
+ [עמוד ראשי](https://github.com/adiaviad/thunderbolts-software-training/blob/main/README.md) | [שיעור 2](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-2) 
 # שיעור #1 
 בשיעור זה נפעיל רובוט בעל שני מנועים ותנהגו בו כמו טנק.   
 לפני שנתחיל לכתוב קוד אנחנו צריכים להבין קצת לגבי השפה java.  
