@@ -39,8 +39,7 @@ public class Drive extends LinearOpMode {
         right_motor.setDirection(REVERSE);
 
         waitForStart();
-        while (opModeIsActive()){
-            
+        while (opModeIsActive()){ 
             switch (robot_state) {
                 case MANUAL_DRIVE:
                     speed_left=-gamepad1.left_stick_y;
@@ -75,8 +74,6 @@ public class Drive extends LinearOpMode {
             dashboard.addData("RobotState number",robot_state.ordinal());
 
             dashboard.update();
-    
-            
           
         }
     }
