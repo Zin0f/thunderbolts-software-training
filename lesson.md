@@ -191,7 +191,7 @@ public class TankDrive extends LinearOpMode {
 ```  
 </details>  
  
- 
+ תרידו את הקוד לרובוט, תפעילו אותו ותנסו להפעיל את הנסיעה של החמש שניות.  
  
 
    
