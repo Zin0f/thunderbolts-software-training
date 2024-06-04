@@ -1,12 +1,14 @@
+ [שיעור 2](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-2) | [עמוד ראשי](https://github.com/adiaviad/thunderbolts-software-training/blob/main/README.md) | [שיעור 4](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-4) 
+
 # שיעור #3 
 בשיעור נלמד זה נלמד להפעיל את הרובוט על ידי שעון בעזרת מכונת מצבים.  
 ## מכונת מצבים 
 הרעיון של מכונת מצבים הוא שיש לנו מצבים שאנחנו רוצים לייצג בקוד ומעברים בין המעברים האלו. מצבים לרוב יבצעו רעיון יחיד (נהיגה ידנית, התחלה שעון, נסיעה עד שהזמן נגמר) ומעברים בין מצבים אך ורק ישנו את המצב. מכונות מצבים שימושיות במיוחד כאשר הקוד רץ בלולאה אינסופית שכל איטרציה שלה צריכה להסתיים בזמן קצר, שזה בדיוק המקרה שלנו.  
 למכונת מצבים שאנחנו נכתוב יהיו שלושה מצבים:  
-  * *נהיגה ידנית* - הקוד שכתבנו בשיעורים קודמים, עוברים ל*התחלת שעון* כאשר הכפתור B לחוץ  
-  * *התחלת שעון* - מתחילים טיימר, עוברים למצב הבא "מייד"  
+  * *נהיגה ידנית* - הקוד עבור נהיגה שכתבנו בשיעורים קודמים, עוברים ל*התחלת שעון* כאשר הכפתור B לחוץ  
+  * *התחלת שעון* - מתחילים טיימר, עוברים למצב הבא   
   * *נסיעה עד שהזמן נגמר* - מפעילים את המנועים במהירות קבועה, עוברים למצב *נהיגה ידנית* כאשר הזמן הטיימר מראה שעברו 5 שניות.
-    ## ייצוג מצבים בקוד - enum
+## ייצוג מצבים בקוד - enum
    הדרך הנוחה ביותר לייצג מצבים של מכונת מצבים בקוד היא ידי יצירת סוג משתנה שייצג את המצבים הללו. אנחנו יכולים להכין סוגי משתנים בעזרת `enum`, זה יאפשר לנו לתת לערכים של הסוג משתנה איזה שם שאנחנו רוצים ובדיוק כמה ערכים שאנחנו רוצים. מגדירים `enum`כך:  
 
      
@@ -35,7 +37,7 @@ if(state==AUTO_START_TIMER){
 <!---
   עכשיו תפתחו את הקוד משיעור קודם ותכתבו בו את ההגדרה של ה`enum` מחוץ לפונקציה `runOpMode` ותכריזו על משתנה בחלק של אתחול הקוד
 -->
-<pr></pr><pr></pr>
+
 <details>
 <summary dir="rtl">עכשיו תפתחו את הקוד משיעור קודם ותכתבו בו את ההגדרה של ה`enum` מחוץ לפונקציה `runOpMode` ותכריזו על משתנה בחלק של אתחול הקוד</summary>  
     
@@ -55,157 +57,320 @@ public class Drive extends LinearOpMode {
 ```  
 </details>  
 
-
-
-
-
-
-
-
-
-
-  # הסדר הסבר למטה לא טוב
- מצבים בקוד יכוליים להיות מיוצגים על ידי מספרים למשל *נהיגה ידנית* יהיה 0, *התחלת שעון* יהיה 1 ו*נסיעה עד שהזמן נגמר* יהיה 2 (תזכרו שלרוב בתכנות מספרים מתחילים מ0) ואז המכונת מצבים בקוד תראה בערך כך:
-```java
-float robot_state=1;
-ElapsedTime timer=new ElapsedTime();
-...
-while (opModeIsActive()){
-  speed_left=-gamepad1.left_stick_y;
-  speed_right=gamepad1.right_stick_y;
- 
-  if(robot_state==1) {
-    drive code
-    if(gamepad1.b) {
-      robot_state=2;
-    }
-  }
-
-  if(robot_state==2) {
-    timer.start();
-    robot_state=3;
-  }
-
-  if(robot_state==3) {
-    left_motor.setPower(0.5);
-    right_motor.setPower(0.5);
-    if(timer.seconds()>5 ) {
-      robot_state = 1;
-    }
-  }
-
-}
-```
- אבל נהוג להשתמש בשמות שמייצגים את המספרים שכדי שיהיה ברור יותר למי שקורא מה כל מצב עושה. נותנים להם שמות בעזרת מה שנקרא `enum` והקוד יראה בערך כך:  
- ```java
-public enum RobotStates{
-   MANUAL_DRIVE,
-   AUTO_START_TIMER,
-   AUTO_DRIVE_UNTIL_TIME_IS_UP
-} 
-
-public void runOpMode()  {
-  RobotStates robot_state=MANUAL_DRIVE;
-  ElapsedTime timer=new ElapsedTime();
-  ...
-  while (opModeIsActive()){
-    speed_left=-gamepad1.left_stick_y;
-    speed_right=gamepad1.right_stick_y;
-   
-    switch (robot_state) {
-      case MANUAL_DRIVE:
-         drive code
-         if(gamepad1.b){
-             robot_state=AUTO_START_TIMER;
-         }
-         break;
-  
-      case AUTO_START_TIMER:
-         timer.start();
-         robot_state=AUTO_DRIVE_UNTIL_TIME_IS_UP;
-         break;
-  
-      case AUTO_DRIVE_UNTIL_TIME_IS_UP:
-         left_motor.setPower(0.5);
-         right_motor.setPower(0.5);
-         if(timer.seconds()>5) {
-             robot_state = MANUAL_DRIVE;
-         }
-         break;
-    }
-  }
-}
-```
-  
-### מה זה enum?  
-  
-זו היא אחת  מהדרכים ליצור סוגי משתנה משלנו. במקרה של `enum` לסוג משתנה יש כמות מוגבלת של ערכים אפשריים, כמו הסוג משתנה `boolean` שראינו בשיעור הקודם שיכול להיות רק `true` או `false`. הערכים האפשריים של הסוג שמורים כמספרים אבל בקוד אנחנו רואים מילים והמילים עוזרות לנו להבין את הקוד.  
-
-
- ```java
-public enum RobotStates{
-   MANUAL_DRIVE,
-   AUTO_START_TIMER,
-   AUTO_DRIVE_UNTIL_TIME_IS_UP
-}
-```  
-
- אז בדוגמה הזאת יצרנו סוג משתנה חדש שנקרא `RobotStates` והגדרנו שיש לו שלושה ערכים אפשריים, הערך `MANUAL_DRIVE`, הערך `AUTO_START_TIMER` והערך `AUTO_DRIVE_UNTIL_TIME_IS_UP`. כל אחד מהערכים מייצג את אחד מהמצבים שהגדרנו בתחילת השיעור עבור המכונת מצבים.  
-   
-   
- ```java
- RobotStates robot_state=MANUAL_DRIVE;
-```
- אחרי כך בקוד הגדרנו משתנה (`robot_state`) בעל הסוג הזה ואתחלנו אותו במצב של נהיגה ידנית `MANUAL_DRIVE` כדי שנוכל לנהוג ברובוט מיד עם הפעלתו ולשנות המצב מאוחר יותר במכונת המצבים.  
-    
- ### &#x200f;switch
-   
- כאשר משתמשים ב`enum` במכונת מצבים נהוג לבדוק את המצבים  בעזרת `switch` ולא בעזרת `if`.  
- השניים דומים, לשניהם יש ביטוי התוך הסוגריים `()` שלהם, אבל ל`switch` צריך להיות קוד בשביל כל ערך אפשריים של הביטוי לעומת `if` שיש לו קוד שרץ רק עבור הערך `true`.  
- 
- ```java  
-switch (robot_state) {
-      case MANUAL_DRIVE:
-         code1
-         break;
-  
-      case AUTO_START_TIMER:
-         code2
-         break;
-  
-      case AUTO_DRIVE_UNTIL_TIME_IS_UP:
-         code3
-         break;
-}
-```
-  
-מכונת המצבים עצמה היא ה`switch` שכל איטרציה של הלולאה בודק את הערך של המשתנה `robot_state` ומבצע את הקוד המתאים למצב.  
-כאשר הערך ב`robot_state` הוא `MANUAL_DRIVE` הקטע שמסומן כ'code1' יתבצע. אותו דבר לגבי `AUTO_START_TIMER` ו'code2' ובמצב השלישי.  
-
-  ## מדידת זמן בקוד  
-  בסיפריה שאנחנו משתמשים יש סוג משתנה `ElapsedTime` שמאפשר לנו להכין טיימרים. אתחול של המשתנה מהסוג הזה נעשה כך:  
+ ## מדידת זמן בקוד  
+  בסיפריה שאנחנו משתמשים יש סוג משתנה, `ElapsedTime`, שמאפשר לנו להכין טיימרים. אתחול של המשתנה מהסוג הזה נעשה כך:  
   
   `ElapsedTime timer=new ElapsedTime();`  
   
-  אחרי אתחול שלו אפשר לקרוא לפעולה `()timer.reset` שתאפס את הזמן aהטיימר ספר. אפשר גם לקרוא לפעולה `()timer.seconds` שתגיד כמה שניות עבור מאז האיפוס. שימו לב שאיפוס של טיימר אחד לא משפיע על טיימר אחר.  
+  אחרי אתחול שלו אפשר לקרוא לפעולה `()timer.reset` שתאפס את הזמן שהטיימר ספר. אפשר גם לקרוא לפעולה `()timer.seconds` שתגיד כמה שניות עבורו מאז האיפוס. שימו לב שאיפוס של טיימר אחד לא משפיע על טיימר אחר.  
 <details>
 <summary dir="rtl">הטיימר משתמש בשעון הפינימי של  הרובוט כדי לפעול</summary>  
  
- בכל המחשבים (הרובוט מופעל על ידי מחשב קטן) יש שעון פנימי שסופר מעלה כל עוד המחשב יש חשמל.  שכאשר רוצים להתחיל למדוד זמן בקוד שומרים את הערך של השעון. כאשר רוצים לבדוק כמה זמן עבר פשוט מחסרים בין הערך העדכני של השעון והערך השמור בתחילת המדידה. `ElapsedTime` עובד בדיוק כך אבל נותן לזה שם שקל יותר להבין (וגם המרה נוחה בין ננו-שניות ושניות)
-</details>
-   
+ בכל המחשבים (הרובוט מופעל על ידי מחשב קטן) יש שעון פנימי שסופר מעלה כל עוד המחשב יש חשמל.  שכאשר רוצים להתחיל למדוד זמן בקוד שומרים את הערך של השעון. כאשר רוצים לבדוק כמה זמן עבר פשוט מחסרים בין הערך העדכני של השעון והערך השמור בתחילת המדידה. `ElapsedTime` עובד בדיוק כך אבל נותן לפעולות שם כדי שיהיה קל יותר להבין (וגם המרה נוחה בין ננו-שניות ושניות)
+</details>  
+  
+ ## כתיבת מכונה המצבים  
+ אנחנו יודעים לייצג מצבים בקוד, למדוד זמן ולהשוות בין מצבים אז עכשיו אפשר לכתוב את המכונת מצבים.  
+ <!---
+   בתוך הלולאה תכתבו את הקוד עבור המצב הראשון במכונת מצבים ותשימו אותו בתוך `if` שבודק `state==MANUAL_DRIVE`  
+-->
 
-
-
-
-<!--
 <details>
-<summary dir="rtl">הגדרת משתנה חדש</summary>  
+<summary dir="rtl"> בתוך הלולאה תכתבו את הקוד עבור המצב הראשון במכונת מצבים ותשימו אותו בתוך `if` שבודק `state==MANUAL_DRIVE`    </summary>  
     
 ```java  
-public void runOpMode()  {  
-
+if(state==MANUAL_DRIVE){
+   speed_left=-gamepad1.left_stick_y;
+   speed_right=gamepad1.right_stick_y;
+   
+   left_motor.setPower(speed_left);
+   right_motor.setPower(speed_right);
+   
+   if(gamepad1.b){
+       robot_state=RobotStates.AUTO_START_TIMER;
+   }
 }
 ```  
 </details>  
+
+ 
+ <!---
+      תוסיפו `if` שבודק `state==AUTO_START_TIMER` ובתוכו את הקוד עבור המצב השני במכונת מצבים ותזכרו לאתחל את הטיימר  
 -->
+
+<details>
+<summary dir="rtl">   תוסיפו `if` שבודק `state==AUTO_START_TIMER` ובתוכו את הקוד עבור המצב השני במכונת מצבים ותזכרו לאתחל את הטיימר     </summary>  
+    
+```java  
+if(state==AUTO_START_TIMER){
+   timer.reset();
+   robot_state=RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+}
+```  
+</details>  
+
+  
+ <!---
+      תוסיפו `if` שבודק `state==AUTO_DRIVE_UNTIL_TIME_IS_UP` ובתוכו את הקוד עבור המצב השלישי במכונת מצבים   
+-->
+
+<details>
+<summary dir="rtl">    תוסיפו `if` שבודק `state==AUTO_DRIVE_UNTIL_TIME_IS_UP` ובתוכו את הקוד עבור המצב השלישי במכונת מצבים      </summary>  
+    
+```java  
+if(state==AUTO_DRIVE_UNTIL_TIME_IS_UP){
+  left_motor.setPower(0.5);
+  right_motor.setPower(0.5);
+  
+  if(timer.seconds()>5) {
+     robot_state = RobotStates.MANUAL_DRIVE;
+  }
+}
+```  
+</details>  
+ 
+ <details>
+<summary dir="rtl">  
+  הקוד במלואו צריך להראות כך:       </summary>  
+    
+```java  
+public class TankDrive extends LinearOpMode {
+    public enum RobotStates {
+        MANUAL_DRIVE,
+        AUTO_START_TIMER,
+        AUTO_DRIVE_UNTIL_TIME_IS_UP
+    }
+
+    @Override
+    public void runOpMode() {
+
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left;
+        float speed_right;
+        boolean slow_robot;
+
+        RobotStates robot_state = RobotStates.MANUAL_DRIVE;
+        ElapsedTime timer = new ElapsedTime();
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+        while (opModeIsActive()) {
+            if (state == MANUAL_DRIVE) {
+                speed_left = -gamepad1.left_stick_y;
+                speed_right = gamepad1.right_stick_y;
+
+                left_motor.setPower(speed_left);
+                right_motor.setPower(speed_right);
+
+                if (gamepad1.b) {
+                    robot_state = RobotStates.AUTO_START_TIMER;
+                }
+            }
+            if (state == AUTO_START_TIMER) {
+                timer.reset();
+                robot_state = RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+            }
+            if (state == AUTO_DRIVE_UNTIL_TIME_IS_UP) {
+                left_motor.setPower(0.5);
+                right_motor.setPower(0.5);
+
+                if (timer.seconds() > 5) {
+                    robot_state = RobotStates.MANUAL_DRIVE;
+                }
+            }
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            
+            dashboard.update();
+        }
+    }
+}
+```  
+</details>  
+ 
+ תרידו את הקוד לרובוט, תפעילו אותו ותנסו להפעיל את הנסיעה של החמש שניות.  
+ 
+## שימוש בswitch  
+‏`switch` דומה ל`if` בכך ששניהם בודקים את הערך של משתנה או ביטוי מסויים. ב`switch` צריך להיות קטע קוד שיתאים לכל ערך אפשרי שיכול להיות במשתנה, לעומת `if` שיש לו קטע קוד רק אם הערך שווה ל`true`. לרוב כאשר בודקים ערך של משתנה שהסוג שלו מוגדר על ידי `enum` משמתמשים ב`switch`.  
+ במקרה שלנו אפשר להחליף את שלושת בדיקות ה`if` ב`switch`, הקוד שהיה מקודם כך:  
+ ```java
+if (state == MANUAL_DRIVE) {
+  code 1
+}
+if (state == AUTO_START_TIMER) {
+  code 2
+}
+if (state == AUTO_DRIVE_UNTIL_TIME_IS_UP) {
+  code3
+}
+```
+ יראה כך:  
+```java
+ switch (robot_state) {
+    case MANUAL_DRIVE:
+        code 1
+        break;
+
+    case AUTO_START_TIMER:
+        code 2
+        break;
+
+    case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+        code 3
+        break;
+}
+```
+
+### הסבר על switch
+ כמו ב`if` בסוגריים `()` נמצא המשתנה שאנחנו בודקים ובתוך ההסוגריים המסולסלות `{}` נמצא הקוד של ה`switch`, והוא מחולק על ידי `case` לערכים השונים שמוגדרים ב`RobotStates`. ליד כל `case`יש את השם שתואם לו ואחרי השם נקודותיים `:`. מהנקודותיים עד למילה `;break` נמצא הקוד שמתבצע אם הערך בrobot_state תואם לcase.  
+ 
+ חשוב לכתוב `;break` בסוף כל `case` כדי שהקוד של ה`case` הבא לא בטעות יבצע יחד איתו.  
+ <!---
+   תשנו את הקוד כך שישתמש ב`switch` במקום `if` 
+ -->
+
+<details>
+<summary dir="rtl">  תשנו את הקוד כך שישתמש ב`switch` במקום `if`  </summary>  
+    
+```java  
+while (opModeIsActive()){ 
+  switch (robot_state) {
+      case MANUAL_DRIVE:
+          speed_left=-gamepad1.left_stick_y;
+          speed_right=gamepad1.right_stick_y;
+
+          left_motor.setPower(speed_left);
+          right_motor.setPower(speed_right);
+
+          if(gamepad1.b){
+              robot_state=RobotStates.AUTO_START_TIMER;
+          }
+          break;
+
+      case AUTO_START_TIMER:
+          timer.reset();
+          robot_state=RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+          break;
+
+      case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+          left_motor.setPower(0.5);
+          right_motor.setPower(0.5);
+
+          if(timer.seconds()>5) {
+              robot_state = RobotStates.MANUAL_DRIVE;
+          }
+          break;
+  }
+ 
+  dashboard.addData("left speed",speed_left);
+  dashboard.addData("right speed",speed_right);
+
+  dashboard.update();
+}
+
+```  
+</details>  
+
+ ## הצגת enum בdashboard
+ לכל משתנה מסוג שהוגדר על ידי `enum`יש שני פעולות שעוזרות לנו בהצגה שלו:
+ * ‏`()name.` שנותן לנו את השם של הערך במשתנה. אם robot_state שווה ל`MANUAL_DRIVE` אז `()robot_state.name` יתן "MANUAL_DRIVE" כמילה שאפשר להציג במסך.
+ * ‏`()ordinal.` שנותן לנו את מספר הסידורי של הערך במשתנה. אם robot_state שווה ל`MANUAL_DRIVE` אז `()robot_state.name` יתן את המספר `0` כי המצב מוגדר ראשון ב`enum`.
+
+ שימו לב שלרוב בתכנות מספור יתחיל מהמספר אפס ולא מאחד.
+     
+   בעזרת שני הפעולות האלה אפשר להוסיף הצגה של המצב של רובוט dashboard.  
+ ```java
+ dashboard.addData("left speed",speed_left);
+ dashboard.addData("right speed",speed_right);
+ dashboard.addData("RobotState name",robot_state.name()); //add this 
+ dashboard.addData("RobotState number",robot_state.ordinal()); // and this
+ 
+ dashboard.update();
+```
+תוסיפו את ההצגה ותורידו את הקוד לרובוט בישביל בדיקה.  
+
+   
+ <details>
+<summary dir="rtl">  
+  הקוד במלואו צריך להראות כך:       </summary>  
+    
+```java  
+@TeleOp(name = "tank drive")
+public class Drive extends LinearOpMode {
+    public enum RobotStates{
+        MANUAL_DRIVE,
+        AUTO_START_TIMER,
+        AUTO_DRIVE_UNTIL_TIME_IS_UP;
+    } 
+    @Override
+    public void runOpMode()  {
+        RobotStates robot_state=RobotStates.MANUAL_DRIVE;
+        Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
+
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left=0;
+        float speed_right=0;
+        ElapsedTime timer=new ElapsedTime();
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+        while (opModeIsActive()){ 
+            switch (robot_state) {
+                case MANUAL_DRIVE:
+                    speed_left=-gamepad1.left_stick_y;
+                    speed_right=gamepad1.right_stick_y;
+
+                    left_motor.setPower(speed_left);
+                    right_motor.setPower(speed_right);
+
+                    if(gamepad1.b){
+                        robot_state=RobotStates.AUTO_START_TIMER;
+                    }
+                    break;
+
+                case AUTO_START_TIMER:
+                    timer.reset();
+                    robot_state=RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+                    break;
+
+                case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+                    left_motor.setPower(0.5);
+                    right_motor.setPower(0.5);
+
+                    if(timer.seconds()>5) {
+                        robot_state = RobotStates.MANUAL_DRIVE;
+                    }
+                    break;
+            }
+           
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            dashboard.addData("RobotState name",robot_state.name());
+            dashboard.addData("RobotState number",robot_state.ordinal());
+
+            dashboard.update();
+          
+        }
+    }
+}
+
+```  
+</details>  
