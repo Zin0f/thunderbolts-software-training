@@ -185,6 +185,10 @@ public class TankDrive extends LinearOpMode {
                     robot_state = RobotStates.MANUAL_DRIVE;
                 }
             }
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            
+            dashboard.update();
         }
     }
 }
@@ -193,8 +197,99 @@ public class TankDrive extends LinearOpMode {
  
  תרידו את הקוד לרובוט, תפעילו אותו ותנסו להפעיל את הנסיעה של החמש שניות.  
  
+## שימוש בswitch  
+‏`switch` דומה ל`if` בכך ששניהם בודקים את הערך של משתנה או ביטוי מסויים. ב`switch` צריך להיות קטע קוד שיתאים לכל ערך אפשרי שיכול להיות במשתנה, לעומת `if` שיש לו קטע קוד רק אם הערך שווה ל`true`. לרוב כאשר בודקים ערך של משתנה שהסוג שלו מוגדר על ידי `enum` משמתמשים ב`switch`.  
+ במקרה שלנו אפשר להחליף את שלושת בדיקות ה`if` ב`switch`, הקוד שהיה מקודם כך:  
+ ```java
+if (state == MANUAL_DRIVE) {
+  code 1
+}
+if (state == AUTO_START_TIMER) {
+  code 2
+}
+if (state == AUTO_DRIVE_UNTIL_TIME_IS_UP) {
+  code3
+}
+```
+ יראה כך:  
+```java
+ switch (robot_state) {
+    case MANUAL_DRIVE:
+        code 1
+        break;
 
-   
+    case AUTO_START_TIMER:
+        code 2
+        break;
+
+    case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+        code 3
+        break;
+}
+```
+
+### הסבר על switch
+ כמו ב`if` בסוגריים `()` נמצא המשתנה שאנחנו בודקים ובתוך ההסוגריים המסולסלות `{}` נמצא הקוד של ה`switch`, והוא מחולק על ידי `case` לערכים השונים שמוגדרים ב`RobotStates`. ליד כל `case`יש את השם שתואם לו ואחרי השם נקודותיים `:`. מהנקודותיים עד למילה `;break` נמצא הקוד שמתבצע אם הערך בrobot_state תואם לcase.  
+ 
+ חשוב לכתוב `;break` בסוף כל `case` כדי שהקוד של ה`case` הבא לא בטעות יבצע יחד איתו.  
+ <!---
+   תשנו את הקוד כך שישתמש ב`switch` במקום `if` 
+ -->
+
+<details>
+<summary dir="rtl">  תשנו את הקוד כך שישתמש ב`switch` במקום `if`  </summary>  
+    
+```java  
+while (opModeIsActive()){ 
+  switch (robot_state) {
+      case MANUAL_DRIVE:
+          speed_left=-gamepad1.left_stick_y;
+          speed_right=gamepad1.right_stick_y;
+
+          left_motor.setPower(speed_left);
+          right_motor.setPower(speed_right);
+
+          if(gamepad1.b){
+              robot_state=RobotStates.AUTO_START_TIMER;
+          }
+          break;
+
+      case AUTO_START_TIMER:
+          timer.reset();
+          robot_state=RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+          break;
+
+      case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+          left_motor.setPower(0.5);
+          right_motor.setPower(0.5);
+
+          if(timer.seconds()>5) {
+              robot_state = RobotStates.MANUAL_DRIVE;
+          }
+          break;
+  }
+ 
+  dashboard.addData("left speed",speed_left);
+  dashboard.addData("right speed",speed_right);
+
+  dashboard.update();
+}
+
+```  
+</details>  
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
