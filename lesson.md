@@ -1,3 +1,5 @@
+ [שיעור 2](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-2) | [עמוד ראשי](https://github.com/adiaviad/thunderbolts-software-training/blob/main/README.md) | [שיעור 4](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-4) 
+
 # שיעור #3 
 בשיעור נלמד זה נלמד להפעיל את הרובוט על ידי שעון בעזרת מכונת מצבים.  
 ## מכונת מצבים 
