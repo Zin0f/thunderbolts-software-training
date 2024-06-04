@@ -278,4 +278,97 @@ while (opModeIsActive()){
 ```  
 </details>  
 
+ ## הצגת enum בdashboard
+ לכל משתנה מסוג שהוגדר על ידי `enum`יש שני פעולות שעוזרות לנו בהצגה שלו:
+ * ‏`()name.` שנותן לנו את השם של הערך במשתנה. אם robot_state שווה ל`MANUAL_DRIVE` אז `()robot_state.name` יתן "MANUAL_DRIVE" כמילה שאפשר להציג במסך.
+ * ‏`()ordinal.` שנותן לנו את מספר הסידורי של הערך במשתנה. אם robot_state שווה ל`MANUAL_DRIVE` אז `()robot_state.name` יתן את המספר `0` כי המצב מוגדר ראשון ב`enum`.
+
+ שימו לב שלרוב בתכנות מספור יתחיל מהמספר אפס ולא מאחד.
+     
+   בעזרת שני הפעולות האלה אפשר להוסיף הצגה של המצב של רובוט dashboard.  
+ ```java
+ dashboard.addData("left speed",speed_left);
+ dashboard.addData("right speed",speed_right);
+ dashboard.addData("RobotState name",robot_state.name()); //add this 
+ dashboard.addData("RobotState number",robot_state.ordinal()); // and this
  
+ dashboard.update();
+```
+תוסיפו את ההצגה ותורידו את הקוד לרובוט בישביל בדיקה.  
+
+   
+ <details>
+<summary dir="rtl">  
+  הקוד במלואו צריך להראות כך:       </summary>  
+    
+```java  
+@TeleOp(name = "tank drive")
+public class Drive extends LinearOpMode {
+    public enum RobotStates{
+        MANUAL_DRIVE,
+        AUTO_START_TIMER,
+        AUTO_DRIVE_UNTIL_TIME_IS_UP;
+    } 
+    @Override
+    public void runOpMode()  {
+        RobotStates robot_state=RobotStates.MANUAL_DRIVE;
+        Telemetry dashboard=FtcDashboard.getInstance().getTelemetry();
+
+        DcMotor left_motor;
+        DcMotor right_motor;
+        float speed_left=0;
+        float speed_right=0;
+        ElapsedTime timer=new ElapsedTime();
+
+        left_motor = hardwareMap.dcMotor.get("1");
+        right_motor = hardwareMap.dcMotor.get("2");
+
+        left_motor.setMode(RUN_WITHOUT_ENCODER);
+        right_motor.setMode(RUN_WITHOUT_ENCODER);
+
+        left_motor.setDirection(FORWARD);
+        right_motor.setDirection(REVERSE);
+
+        waitForStart();
+        while (opModeIsActive()){ 
+            switch (robot_state) {
+                case MANUAL_DRIVE:
+                    speed_left=-gamepad1.left_stick_y;
+                    speed_right=gamepad1.right_stick_y;
+
+                    left_motor.setPower(speed_left);
+                    right_motor.setPower(speed_right);
+
+                    if(gamepad1.b){
+                        robot_state=RobotStates.AUTO_START_TIMER;
+                    }
+                    break;
+
+                case AUTO_START_TIMER:
+                    timer.reset();
+                    robot_state=RobotStates.AUTO_DRIVE_UNTIL_TIME_IS_UP;
+                    break;
+
+                case AUTO_DRIVE_UNTIL_TIME_IS_UP:
+                    left_motor.setPower(0.5);
+                    right_motor.setPower(0.5);
+
+                    if(timer.seconds()>5) {
+                        robot_state = RobotStates.MANUAL_DRIVE;
+                    }
+                    break;
+            }
+           
+            dashboard.addData("left speed",speed_left);
+            dashboard.addData("right speed",speed_right);
+            dashboard.addData("RobotState name",robot_state.name());
+            dashboard.addData("RobotState number",robot_state.ordinal());
+
+            dashboard.update();
+          
+        }
+    }
+}
+
+```  
+</details>  
