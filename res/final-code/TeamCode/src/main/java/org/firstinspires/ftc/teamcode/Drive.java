@@ -40,11 +40,12 @@ public class Drive extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()){
-            speed_left=-gamepad1.left_stick_y;
-            speed_right=gamepad1.right_stick_y;
-
+            
             switch (robot_state) {
                 case MANUAL_DRIVE:
+                    speed_left=-gamepad1.left_stick_y;
+                    speed_right=gamepad1.right_stick_y;
+
                     left_motor.setPower(speed_left);
                     right_motor.setPower(speed_right);
 
