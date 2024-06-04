@@ -126,10 +126,10 @@ if(state==AUTO_DRIVE_UNTIL_TIME_IS_UP){
 }
 ```  
 </details>  
-
-  הקוד במלואו צריך להראות כך:  
+ 
  <details>
-<summary dir="rtl">   הקוד במלואו צריך להראות כך       </summary>  
+<summary dir="rtl">  
+  הקוד במלואו צריך להראות כך:       </summary>  
     
 ```java  
 public class TankDrive extends LinearOpMode {
