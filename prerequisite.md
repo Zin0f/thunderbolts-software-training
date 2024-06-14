@@ -9,5 +9,6 @@
 [הקוד שצריך להיות פתוח במחשבים](res/TankDrive.java)  
 [הdashboard של הftc](https://acmerobotics.github.io/ftc-dashboard/)  
 [אם שואלים למה מספר עשרוני נקרא float](https://www.youtube.com/watch?v=PZRI1IfStY0)  
+[אם שואלים איך מחשב עובד](https://www.youtube.com/playlist?list=PL2p7zmULBRAp3dRs54q16wU5xpa4c9STE)
 
 אם נשאר זמן אחרי שהחדשים נהגו ברובוט אז תלוי במקום הזמן אפשר לעבור [לשיעור 2](https://github.com/adiaviad/thunderbolts-software-training/tree/lesson-2) או להרחיב שדברים שהוסברו במהירות בשיעור.
